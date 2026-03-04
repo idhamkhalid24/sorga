@@ -139,7 +139,6 @@
             display: flex;
             align-items: center;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            transition: background 0.2s;
         }
 
         .toggle-btn:hover { background-color: var(--slate-200); }
@@ -203,20 +202,13 @@
             border-radius: 1.5rem;
         }
 
-        /* Legend Style */
+        /* Legend Table */
         .legend-box {
             background-color: var(--slate-50);
             padding: 1rem;
             border-radius: 1rem;
             border: 1px solid var(--slate-100);
-        }
-
-        .legend-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
+            margin-top: 1rem;
         }
 
         .legend-title {
@@ -224,9 +216,12 @@
             font-weight: 900;
             color: var(--slate-500);
             text-transform: uppercase;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 0.5rem;
+            cursor: pointer;
         }
 
         .legend-item {
@@ -242,12 +237,6 @@
         .legend-val { color: #4f46e5; }
         
         .italic { font-style: italic; }
-
-        .icon-small {
-            opacity: 0.5;
-            transition: opacity 0.2s;
-        }
-        .icon-small:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -266,7 +255,7 @@
                 <input 
                     type="text" 
                     id="kodeInput"
-                    placeholder="CONTOH: (A)AU" 
+                    placeholder="CONTOH: (A)AU atau A." 
                     oninput="hitungHarga()"
                     autocomplete="off"
                 >
@@ -275,10 +264,10 @@
             <!-- Result Display -->
             <div id="resultContainer" class="hidden space-y-4">
                 <div class="toggle-btn-container">
-                    <button onclick="toggleVisibility()" class="toggle-btn" title="Lihat/Sembunyikan Modal">
+                    <button onclick="toggleVisibility()" class="toggle-btn">
                         <span id="eyeIcon">
-                            <!-- Icon Mata Tertutup Default -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                            <!-- Icon Mata Tertutup -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88L4.62 4.62"/><path d="M1 1l22 22"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><circle cx="12" cy="12" r="3"/><path d="M14.12 14.12l-4.24-4.24"/></svg>
                         </span>
                     </button>
                 </div>
@@ -303,17 +292,15 @@
                 <p style="font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em;">Siap Menghitung...</p>
             </div>
 
-            <!-- Legend Table (V9) -->
+            <!-- Legend Table (Default Hidden) -->
             <div class="legend-box">
-                <div class="legend-header" onclick="toggleLegend()">
-                    <p class="legend-title">🔑 LOGIKA KODE (V9)</p>
-                    <span id="legendEyeIcon" class="icon-small">
-                        <!-- Icon Mata Tertutup -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                <div class="legend-title" onclick="toggleLegend()">
+                    <span>🔑 LOGIKA KODE (V9.1)</span>
+                    <span id="legendChevron">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </span>
                 </div>
-                
-                <div id="legendContent" class="space-y-2 hidden" style="margin-top: 0.75rem;">
+                <div id="legendContent" class="hidden space-y-2">
                    <div class="legend-item">
                      <span>(A)AU</span>
                      <span class="legend-val">100 + 10 + 5 = 115</span>
@@ -323,12 +310,8 @@
                      <span class="legend-val">200 + 1 = 201</span>
                    </div>
                    <div class="legend-item" style="border:none">
-                     <span>A- / I-</span>
+                     <span>A. / I.</span>
                      <span class="legend-val">Puluhan Bulat (10 / 20)</span>
-                   </div>
-                   <div class="legend-item" style="border-top:1px solid #e2e8f0; padding-top: 0.5rem; border-bottom:none">
-                     <span>KUNCI:</span>
-                     <span class="legend-val">PINTU SORGA (A=0)</span>
                    </div>
                 </div>
             </div>
@@ -342,21 +325,19 @@
         };
 
         let isVisible = false;
-        let isLegendVisible = false;
         let lastModalValue = 0;
         let lastUntungValue = 0;
 
+        // Fungsi toggle legend
         function toggleLegend() {
-            isLegendVisible = !isLegendVisible;
             const content = document.getElementById('legendContent');
-            const icon = document.getElementById('legendEyeIcon');
-            
-            if (isLegendVisible) {
+            const chevron = document.getElementById('legendChevron');
+            if (content.classList.contains('hidden')) {
                 content.classList.remove('hidden');
-                icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+                chevron.style.transform = 'rotate(180deg)';
             } else {
                 content.classList.add('hidden');
-                icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+                chevron.style.transform = 'rotate(0deg)';
             }
         }
 
@@ -377,7 +358,7 @@
                 untungTxt.innerText = "••••••";
                 modalTxt.classList.add('italic');
                 untungTxt.classList.add('italic');
-                eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+                eyeIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88L4.62 4.62"/><path d="M1 1l22 22"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><circle cx="12" cy="12" r="3"/><path d="M14.12 14.12l-4.24-4.24"/></svg>';
             }
         }
 
@@ -395,6 +376,7 @@
             let totalModal = 0;
             let tempInput = input;
 
+            // 1. Proses Ratusan: (A), (I), dll
             const ratusanRegex = /\((P|I|N|T|U|S|O|R|G|A)\)/g;
             let match;
             while ((match = ratusanRegex.exec(input)) !== null) {
@@ -403,19 +385,31 @@
                 tempInput = tempInput.replace(match[0], '');
             }
 
+            // 2. Proses Sisa Input
             if (tempInput.length > 0) {
-                if (tempInput.includes('-')) {
-                    const char = tempInput.split('-')[0];
-                    totalModal += (char === 'A' ? 10 : baseMap[char] * 10);
-                } else if (tempInput.length === 2) {
+                // Logika Titik (.) untuk Puluhan Bulat
+                if (tempInput.includes('.')) {
+                    const char = tempInput.split('.')[0];
+                    if (char && baseMap[char] !== undefined) {
+                        totalModal += (char === 'A' ? 10 : baseMap[char] * 10);
+                    }
+                } 
+                // Logika 2 Karakter (Puluhan + Satuan) misal: AU
+                else if (tempInput.length === 2) {
                     const p1 = tempInput[0];
                     const p2 = tempInput[1];
-                    totalModal += (p1 === 'A' ? 10 : baseMap[p1] * 10);
-                    totalModal += baseMap[p2];
-                } else if (tempInput.length === 1) {
+                    if (baseMap[p1] !== undefined) totalModal += (p1 === 'A' ? 10 : baseMap[p1] * 10);
+                    if (baseMap[p2] !== undefined) totalModal += baseMap[p2];
+                } 
+                // Logika 1 Karakter (Bisa Puluhan atau Satuan tergantung konteks, di sini dianggap puluhan/satuan default)
+                else if (tempInput.length === 1) {
                     const char = tempInput[0];
-                    totalModal += (char === 'A' ? 10 : baseMap[char]);
-                } else {
+                    if (baseMap[char] !== undefined) {
+                        totalModal += (char === 'A' ? 10 : baseMap[char]);
+                    }
+                } 
+                // Fallback jika lebih dari 2 karakter tanpa format khusus
+                else {
                     for (let char of tempInput) {
                         if (baseMap[char] !== undefined) totalModal += baseMap[char];
                     }
@@ -430,6 +424,7 @@
 
             lastModalValue = totalModal;
 
+            // Logika Keuntungan
             let untung = 0;
             if (totalModal >= 1 && totalModal <= 20) untung = 5;
             else if (totalModal > 20 && totalModal <= 45) untung = 8;
@@ -441,6 +436,7 @@
             lastUntungValue = untung;
             const hargaMember = totalModal + untung;
 
+            // Update UI
             if (isVisible) {
                 document.getElementById('modalTxt').innerText = "Rp " + (totalModal * 1000).toLocaleString('id-ID');
                 document.getElementById('untungTxt').innerText = "+Rp " + (untung * 1000).toLocaleString('id-ID');
